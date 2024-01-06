@@ -64,7 +64,7 @@ class DbServices {
       });
       return response;
     } catch (error) {
-      console.log("Gagal Mengambil data");
+      console.log("Gagal mMenambah data data " + error);
     }
   }
 

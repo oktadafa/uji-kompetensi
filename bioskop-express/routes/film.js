@@ -14,6 +14,7 @@ router.get("/", (req, res) => {
 router.post("/tambah", (req, res) => {
   const dbser = DbServices.getDbServiceInstance();
   const data = req.body;
+  data.durasi = `${data.jam}:${data.menit}:${data.detik}`;
   const result = dbser.insertFilm(data);
 
   result

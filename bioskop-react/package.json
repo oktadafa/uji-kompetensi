@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "admin-lte": "^3.2.0",
+    "axios": "^1.6.5",
     "react": "^18.2.0",
+    "react-data-table-component": "^7.5.4",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.1"
+    "react-router-dom": "^6.21.1",
+    "sweetalert2": "^11.6.13"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

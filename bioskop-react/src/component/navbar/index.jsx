@@ -1,6 +1,6 @@
 export default function Navbar() {
   return (
-    <nav className="main-header navbar navbar-expand navbar-white navbar-light">
+    <nav className="main-header navbar navbar-expand navbar-white navbar-light container-fluid position-fixed">
       {/* Left navbar links */}
       <ul className="navbar-nav">
         <li className="nav-item">

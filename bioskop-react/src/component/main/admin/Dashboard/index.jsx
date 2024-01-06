@@ -9,8 +9,8 @@ export default function Main() {
       <div className="content-wrapper">
         <section className="content-header">
           <div className="container-fluid">
-            <div className="row mb-2">
-              <div className="col-sm-6">
+            <div className="row mb-2 py-3">
+              <div className="col-sm-6 mt-5">
                 <h1>Dashboard</h1>
               </div>
             </div>
@@ -77,7 +77,7 @@ export default function Main() {
           {/* /.card */}
         </section>
       </div>
-      <footer className="main-footer text-center">
+      <footer className="main-footer text-center fixed-bottom">
         <strong>Copyright Sidasari Cinema </strong>
         All rights reserved.
       </footer>

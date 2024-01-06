@@ -2248,11 +2248,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/okta/Documents/ut school/uji kompetensi/Stackup.Api/Stackup.Api.csproj",
+      "projectUniqueName": "/home/okta/Documents/ut school/uji-kompetensi/Stackup.Api/Stackup.Api.csproj",
       "projectName": "Stackup.Api",
-      "projectPath": "/home/okta/Documents/ut school/uji kompetensi/Stackup.Api/Stackup.Api.csproj",
+      "projectPath": "/home/okta/Documents/ut school/uji-kompetensi/Stackup.Api/Stackup.Api.csproj",
       "packagesPath": "/home/okta/.nuget/packages/",
-      "outputPath": "/home/okta/Documents/ut school/uji kompetensi/Stackup.Api/obj/",
+      "outputPath": "/home/okta/Documents/ut school/uji-kompetensi/Stackup.Api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/okta/.nuget/NuGet/NuGet.Config"

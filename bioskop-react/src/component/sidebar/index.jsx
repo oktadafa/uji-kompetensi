@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   return (
-    <aside className="main-sidebar sidebar-dark-primary elevation-4">
+    <aside className="main-sidebar sidebar-dark-primary elevation-4 position-fixed">
       {/* Brand Logo */}
       <a className="brand-link text-center">
         <span className="brand-text font-weight-light">Sidasari Cinema</span>
@@ -58,16 +58,23 @@ export default function Sidebar() {
             </li>
 
             <li className="nav-item">
-              <Link to={"/admin/pegawai"} className="nav-link">
-                <i className="nav-icon far fa-user"></i>
-                <p>Data Pegawai</p>
+              <Link to={"/admin/ruang"} className="nav-link">
+                <i className="nav-icon fas fa-sign-out-alt"></i>
+                <p>Data Ruang</p>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link to={"/admin/karyawan"} className="nav-link">
+                <i className="nav-icon fas fa-users"></i>
+                <p>Data Karyawan</p>
               </Link>
             </li>
 
             <li className="nav-item">
               <Link to={"/admin/film"} className="nav-link">
                 <i className="nav-icon fas fa-reguler fa-film" />
-                <p>Data Film</p>
+                <p>Daftar Film</p>
               </Link>
             </li>
 
