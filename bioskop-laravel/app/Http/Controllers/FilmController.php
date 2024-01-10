@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Film;
+use App\Models\JadwalFilm;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 
@@ -22,20 +24,21 @@ class FilmController extends Controller
         $waktu = explode(':', $id->durasi);
         $jam = intval($waktu[0]);
         $menit = intval($waktu[1]);
-        $id->tanggal_rilis = date('d/m/Y', strtotime($id->tanggal_rilis));
+
+        $id->jadwal_films->tanggal_tayang =
         $id->durasi = "$jam Jam $menit Menit";
         return view('main.show', [
                 'film' => $id
         ]);
     }
 
-    public function teater(){
-        $jumlah_kursi = 40;
-        $row = 10;
+    public function teater(JadwalFilm $id){
+        $id = $id->load('ruangs');
+        $jumlah_kursi = $id->ruangs->jumlah_kursi;
         return view('main.teater',[
             'id_kursi' => str_split('ABCDEFGHIJKLMNOPQRSTU'),
             'jumlah_kursi' => $jumlah_kursi,
-            'kursi_perbaris' => $row
+            'id' => $id,
         ]);
     }
 }

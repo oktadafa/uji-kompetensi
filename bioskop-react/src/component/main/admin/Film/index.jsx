@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { film } from "../../../../axios";
 export default function Film() {
   const [data, setData] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     film
@@ -13,6 +14,7 @@ export default function Film() {
         console.log("Success mengambil data");
         console.log(response.data.data);
         setData(response.data.data);
+        setSearch(response.data.data);
         localStorage.setItem("films", JSON.stringify(response.data.data));
       })
       .catch((err) => {
@@ -20,19 +22,31 @@ export default function Film() {
       });
   }, []);
 
+  const handleSearch = (e) => {
+    const filter = search.filter((val) =>
+      val.judul.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    console.log(filter);
+    console.log(e.target.value);
+    setData(filter);
+  };
   const films = data.map((val, index) => (
-    <div key={index} style={{ width: "15rem" }} className=" mt-4 text-center">
+    <div
+      key={index}
+      style={{ width: "15rem" }}
+      className=" mt-4 text-center ml-4"
+    >
       <img
         src="https://i.pinimg.com/474x/8d/e6/2c/8de62c26aa3e2f6975c0163aef5e26e6.jpg"
         className="card-img-top rounded"
         alt="..."
       />
-      <a
+      <Link
         className="text-decoration-none text-dark"
-        href="/film/{{ $item->id }}"
+        to={"/admin/film/" + val.id}
       >
         <h4 className="mt-2"> {val.judul} </h4>
-      </a>
+      </Link>
     </div>
   ));
   return (
@@ -52,141 +66,25 @@ export default function Film() {
         </section>
         <section className="content">
           <div className="card overflow-scroll">
-            <div className="card-header">
+            <div className="card-header d-flex">
               <Link to={"/admin/film/buat"} className=" btn btn-primary">
                 + Tambah Film Baru
               </Link>
+              <input
+                type="text"
+                className="form-control col-6 mx-auto"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="Cari Judul"
+                onChange={handleSearch}
+              />
             </div>
-            <div className="d-flex justify-content-around flex-wrap">
-              {/* <div style={{ width: "15rem" }} className="mt-4 text-center">
-                <img
-                  src="https://i.pinimg.com/474x/8d/e6/2c/8de62c26aa3e2f6975c0163aef5e26e6.jpg"
-                  className="card-img-top rounded"
-                  alt="..."
-                />
-                <a
-                  className="text-decoration-none text-dark"
-                  href="/film/{{ $item->id }}"
-                >
-                  <h4 className="mt-2"> Detective Conan</h4>
-                </a>
-              </div>
-
-              <div
-                style={{ width: "15rem" }}
-                className=" mt-4 text-center border"
-              >
-                <img
-                  src="https://i.pinimg.com/474x/8d/e6/2c/8de62c26aa3e2f6975c0163aef5e26e6.jpg"
-                  className="card-img-top rounded"
-                  alt="..."
-                />
-                <a
-                  className="text-decoration-none text-dark"
-                  href="/film/{{ $item->id }}"
-                >
-                  <h4 className="mt-2"> Detective Conan</h4>
-                </a>
-              </div>
-
-              <div style={{ width: "15rem" }} className=" mt-4 text-center">
-                <img
-                  src="https://i.pinimg.com/474x/8d/e6/2c/8de62c26aa3e2f6975c0163aef5e26e6.jpg"
-                  className="card-img-top rounded"
-                  alt="..."
-                />
-                <a
-                  className="text-decoration-none text-dark"
-                  href="/film/{{ $item->id }}"
-                >
-                  <h4 className="mt-2"> Detective Conan </h4>
-                </a>
-              </div>
-
-              <div style={{ width: "15rem" }} className=" mt-4 text-center">
-                <img
-                  src="https://i.pinimg.com/474x/8d/e6/2c/8de62c26aa3e2f6975c0163aef5e26e6.jpg"
-                  className="card-img-top rounded"
-                  alt="..."
-                />
-                <a
-                  className="text-decoration-none text-dark"
-                  href="/film/{{ $item->id }}"
-                >
-                  <h4 className="mt-2"> Detective Conan </h4>
-                </a>
-              </div>
-
-              <div style={{ width: "15rem" }} className=" mt-4 text-center">
-                <img
-                  src="https://i.pinimg.com/474x/8d/e6/2c/8de62c26aa3e2f6975c0163aef5e26e6.jpg"
-                  className="card-img-top rounded"
-                  alt="..."
-                />
-                <a
-                  className="text-decoration-none text-dark"
-                  href="/film/{{ $item->id }}"
-                >
-                  <h4 className="mt-2"> Detective Conan </h4>
-                </a>
-              </div>
-
-              <div style={{ width: "15rem" }} className=" mt-4 text-center">
-                <img
-                  src="https://i.pinimg.com/474x/8d/e6/2c/8de62c26aa3e2f6975c0163aef5e26e6.jpg"
-                  className="card-img-top rounded"
-                  alt="..."
-                />
-                <a
-                  className="text-decoration-none text-dark"
-                  href="/film/{{ $item->id }}"
-                >
-                  <h4 className="mt-2"> Detective Conan </h4>
-                </a>
-              </div>
-
-              <div style={{ width: "15rem" }} className=" mt-4 text-center">
-                <img
-                  src="https://i.pinimg.com/474x/8d/e6/2c/8de62c26aa3e2f6975c0163aef5e26e6.jpg"
-                  className="card-img-top rounded"
-                  alt="..."
-                />
-                <a
-                  className="text-decoration-none text-dark"
-                  href="/film/{{ $item->id }}"
-                >
-                  <h4 className="mt-2"> Detective Conan </h4>
-                </a>
-              </div>
-
-              <div style={{ width: "15rem" }} className=" mt-4 text-center">
-                <img
-                  src="https://i.pinimg.com/474x/8d/e6/2c/8de62c26aa3e2f6975c0163aef5e26e6.jpg"
-                  className="card-img-top rounded"
-                  alt="..."
-                />
-                <a
-                  className="text-decoration-none text-dark"
-                  href="/film/{{ $item->id }}"
-                >
-                  <h4 className="mt-2"> Detective Conan </h4>
-                </a>
-              </div>
-
-              <div style={{ width: "15rem" }} className=" mt-4 text-center">
-                <img
-                  src="https://i.pinimg.com/474x/8d/e6/2c/8de62c26aa3e2f6975c0163aef5e26e6.jpg"
-                  className="card-img-top rounded"
-                  alt="..."
-                />
-                <a
-                  className="text-decoration-none text-dark"
-                  href="/film/{{ $item->id }}"
-                >
-                  <h4 className="mt-2"> Detective Conan </h4>
-                </a>
-              </div> */}
-              {films}
+            <div className="d-flex ml-2 flex-wrap">
+              {data.length > 0 ? (
+                films
+              ) : (
+                <h5 className="p-5">Tidak Ada FIlm</h5>
+              )}
             </div>
           </div>
         </section>

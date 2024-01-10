@@ -1,11 +1,93 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../../../navbar";
 import Sidebar from "../../../sidebar";
+import { film, jadwal, ruang } from "../../../../axios";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function BuatJadwal() {
-  const [form, setForm] = useState({});
-  const handleChange = () => {};
-  const handleSubmit = () => {};
+  const [form, setForm] = useState({
+    films_id: "",
+    ruangs_id: "",
+    tanggal_tayang: "",
+    harga_tiket: "",
+    jam_tayang: "",
+  });
+  const [DataRuang, setDataRuang] = useState([]);
+  const [DataFIlm, setDataFilm] = useState([]);
+  useEffect(() => {
+    getDataRuang();
+    getDataFilm();
+  }, []);
+  const navigasi = useNavigate();
+
+  const getDataFilm = () => {
+    film
+      .get()
+      .then((response) => {
+        setDataFilm(response.data.data);
+        console.log("Berhasil Menghubungkan ke Api");
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("Gagal Menghubungkan Ke Api");
+      });
+  };
+
+  const getDataRuang = () => {
+    ruang
+      .get()
+      .then((response) => {
+        setDataRuang(response.data.data);
+        console.log("Berhasil Menghubungkan ke Api");
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("Gagal Menghubungkan Ke Api");
+      });
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    jadwal
+      .post("/tambah", form)
+      .then((response) => {
+        console.log("Berhasil Menambahkan data ke Api");
+        console.log(response);
+        Swal.fire({
+          text: "Data Berhasil Ditambahkan",
+          title: "Sukses!",
+          icon: "success",
+        });
+        navigasi("/admin/jadwal");
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          text: "Data Gagal Ditambahkan",
+          title: "Gagal!",
+          icon: "error",
+        });
+        navigasi("/admin/jadwal");
+      });
+  };
+
+  const selectRuang = DataRuang.map((val, index) => (
+    <option value={val.id} key={index}>
+      {val.nama_ruang}
+    </option>
+  ));
+
+  const selectFilm = DataFIlm.map((val, index) => (
+    <option key={index} value={val.id}>
+      {val.judul}
+    </option>
+  ));
+
   return (
     <>
       <Navbar />
@@ -35,33 +117,35 @@ export default function BuatJadwal() {
                   <div className="card-body">
                     <div className="form-group">
                       <label>Judul Film</label>
-                      <select className="form-control">
+                      <select
+                        className="form-control"
+                        name="films_id"
+                        onChange={handleChange}
+                        required
+                      >
                         <option>Pilih Judul Film</option>
-                        <option>Detective Conan</option>
-                        <option>Shokugeki No Souma</option>
-                        <option>Otonari No Tenshi Sama</option>
-                        <option>Dr Stone</option>
-                        <option>Captain Tsubasa</option>
+                        {selectFilm}
                       </select>
                     </div>
                     <div className="form-group">
                       <label>Ruang</label>
-                      <select className="form-control">
+                      <select
+                        className="form-control"
+                        name="ruangs_id"
+                        onChange={handleChange}
+                        required
+                      >
                         <option>Pilih Ruang</option>
-                        <option>Studio 1</option>
-                        <option>Studio 2</option>
-                        <option>Studio 3</option>
-                        <option>Studio 4</option>
-                        <option>Studio 5</option>
+                        {selectRuang}
                       </select>
                     </div>
                     <div className="form-group">
-                      <label htmlFor="Aktor">Harga Tiket</label>
+                      <label htmlFor="harga_tiket">Harga Tiket</label>
                       <input
                         type="number"
                         className="form-control"
-                        id="Aktor"
-                        name="aktor"
+                        id="harga_tiket"
+                        name="harga_tiket"
                         placeholder="Masukan Harga Tiket"
                         onChange={handleChange}
                         required
@@ -69,7 +153,7 @@ export default function BuatJadwal() {
                     </div>
 
                     <div className="form-group">
-                      <label htmlFor="tanggal_rilis">Tanggal Tayang</label>
+                      <label htmlFor="tanggal_tayang">Tanggal Tayang</label>
                       <input
                         type="date"
                         className="form-control"
@@ -87,7 +171,7 @@ export default function BuatJadwal() {
                           type="time"
                           className="form-control"
                           id="jam"
-                          name="jam"
+                          name="jam_tayang"
                           onChange={handleChange}
                           required
                         />

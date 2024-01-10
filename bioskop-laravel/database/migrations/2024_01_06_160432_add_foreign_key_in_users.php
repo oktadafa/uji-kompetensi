@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('jadwal_films', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
-            $table->foreign('jams_id')->on('jams')->references('id');
+            $table->foreign('role_id')->on('roles')->references('id')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
@@ -22,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('jadwal_films', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
+            $table->dropForeign('role_id');
         });
     }
 };

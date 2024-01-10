@@ -1,19 +1,18 @@
+import { useNavigate } from "react-router-dom";
+import { laravel } from "../../../../axios";
 import Navbar from "../../../navbar";
 import Sidebar from "../../../sidebar";
 import { useState } from "react";
+import Swal from "sweetalert2";
 export default function TambahPegawai() {
   const [form, setForm] = useState({
-    judul: "",
-    deskripsi: "",
-    aktor: "",
-    sutradara: "",
-    tanggal_rilis: "",
-    jam: "",
-    menit: "",
-    detik: "",
-    durasi: "",
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    role_id: "",
   });
-
+  const navigasi = useNavigate();
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -23,10 +22,35 @@ export default function TambahPegawai() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setForm({
-      durasi: `${form.jam}:${form.menit}:${form.detik}`,
-    });
-    console.log(form);
+    laravel
+      .post("/api/createUser", form)
+      .then((response) => {
+        console.log("Berhasil Menghubungkan Ke Api");
+        console.log(response.data);
+        if (response.data.status == 200) {
+          Swal.fire({
+            text: "Berhasil Menambahkan Data",
+            title: "Sukses!",
+            icon: "success",
+          });
+          navigasi("/admin/karyawan");
+        } else {
+          Swal.fire({
+            text: "Gagal Menambahkan Data",
+            title: "Gagal!",
+            icon: "error",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("gagal menghubungkan ke Api");
+        console.log("Error = " + err);
+        Swal.fire({
+          text: "Gagal Menambahkan Data",
+          title: "Gagal!",
+          icon: "error",
+        });
+      });
   };
   return (
     <>
@@ -51,8 +75,6 @@ export default function TambahPegawai() {
                 <div className="card-header">
                   <h3 className="card-title">Tambah Karyawan</h3>
                 </div>
-                {/* /.card-header */}
-                {/* form start */}
                 <form onSubmit={handleSubmit}>
                   <div className="card-body">
                     <div className="form-group">
@@ -61,9 +83,10 @@ export default function TambahPegawai() {
                         type="text"
                         className="form-control"
                         id="namaKaryawan"
-                        name="nama"
+                        name="name"
                         placeholder="Masukan Nama"
                         onChange={handleChange}
+                        value={form.name}
                         required
                       />
                     </div>
@@ -77,6 +100,7 @@ export default function TambahPegawai() {
                         name="email"
                         onChange={handleChange}
                         placeholder="Masukan Email"
+                        value={form.email}
                         required
                       />
                     </div>
@@ -89,6 +113,7 @@ export default function TambahPegawai() {
                         name="username"
                         onChange={handleChange}
                         placeholder="Masukan Username"
+                        value={form.username}
                         required
                       />
                     </div>
@@ -101,15 +126,21 @@ export default function TambahPegawai() {
                         name="password"
                         placeholder="Masukan Nama Aktor"
                         onChange={handleChange}
+                        value={form.password}
                         required
                       />
                     </div>
                     <div className="form-group">
                       <label htmlFor="jabatan">Jabatan</label>
-                      <select className="form-control" id="jabatan">
+                      <select
+                        className="form-control"
+                        id="jabatan"
+                        onChange={handleChange}
+                        name="role_id"
+                      >
                         <option>Pilih Jabatan</option>
-                        <option>Admin</option>
-                        <option>Kasir</option>
+                        <option value={1}>Admin</option>
+                        <option value={2}>Kasir</option>
                       </select>
                     </div>
                   </div>

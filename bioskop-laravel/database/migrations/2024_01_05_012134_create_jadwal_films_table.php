@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('jadwal_films', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('films_id');
-            $table->unsignedBigInteger('jams_id');
             $table->unsignedBigInteger('ruangs_id');
+            $table->decimal('harga_tiket');
             $table->date('tanggal_tayang');
+            $table->time('jam_tayang');
             $table->timestamps();
 
             $table->foreign('films_id')->on('films')->references('id')->cascadeOnDelete()->cascadeOnUpdate();

@@ -1,7 +1,6 @@
 import DataTable from "react-data-table-component";
 import Navbar from "../../../navbar";
 import Sidebar from "../../../sidebar";
-import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ruang } from "../../../../axios";
 import Swal from "sweetalert2";
@@ -11,7 +10,6 @@ export default function DataRuang() {
     nama_ruang: "",
     jumlah_kursi: "",
   });
-  const navigasi = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -180,13 +178,14 @@ export default function DataRuang() {
             className="btn btn-danger"
             onClick={() => {
               Swal.fire({
-                title: "Apakah kamu Yakin Menghapus Ini?",
-                text: "kamu akan mengahapus data",
+                title: "Hapus Data Ini?",
+                text: "kamu akan menghapus data ini",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!",
+                confirmButtonText: "Ya, Hapus Ini!",
+                cancelButtonText: "Batal",
               }).then((result) => {
                 if (result.isConfirmed) {
                   hapusData(row.id);

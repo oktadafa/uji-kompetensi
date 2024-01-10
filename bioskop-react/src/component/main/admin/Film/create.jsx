@@ -3,11 +3,13 @@ import Navbar from "../../../navbar";
 import Sidebar from "../../../sidebar";
 import { film } from "../../../../axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 export default function BuatFilm() {
   const [form, setForm] = useState({
     judul: "",
     deskripsi: "",
     aktor: "",
+    tema: "",
     sutradara: "",
     tanggal_rilis: "",
     jam: "",
@@ -27,11 +29,26 @@ export default function BuatFilm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    film.post("/tambah", form).then((response) => {
-      console.log("berhasil menambahakan film");
-      console.log(response);
-      navigasi("/admin/film");
-    });
+    film
+      .post("/tambah", form)
+      .then((response) => {
+        console.log("berhasil menambahakan film");
+        console.log(response);
+        Swal.fire({
+          text: "Berhasil Menambahkan Data",
+          title: "Success!",
+          icon: "success",
+        });
+        navigasi("/admin/film");
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          text: "Gagal Menambahkan Data",
+          title: "Gagal!",
+          icon: "error",
+        });
+      });
   };
   return (
     <>
@@ -69,6 +86,19 @@ export default function BuatFilm() {
                         name="judul"
                         value={form.judul}
                         placeholder="Masukan Judul Film"
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="judulFilm">Tema Film</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="judulFilm"
+                        name="tema"
+                        value={form.tema}
+                        placeholder="Masukan Tema Film"
                         onChange={handleChange}
                         required
                       />

@@ -25,6 +25,7 @@ router.post("/tambah", (req, res) => {
 router.put("/ubah/", (req, res) => {
   const dbser = DbServices.getDbServiceInstance();
   const data = req.body;
+  data.durasi = `${data.jam}:${data.menit}:${data.detik}`;
   const result = dbser.editFilm(data);
 
   result

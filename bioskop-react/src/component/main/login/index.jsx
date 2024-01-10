@@ -1,21 +1,82 @@
+import { useState } from "react";
+import { laravel } from "../../../axios";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 export default function Login() {
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // login
+    //   .post("", form)
+    //   .then((response) => {
+    //     if (response.data.status == 200) {
+    //       console.log(response.data.data);
+    //       localStorage.setItem("user", JSON.stringify(response.data.data));
+    //       if (response.data.data.role_name == "/admin") {
+    //         navigate("/admin");
+    //       } else {
+    //         navigate("/kasir");
+    //       }
+    //     } else {
+    //       Swal.fire({
+    //         text: response.data.message,
+    //         title: "Gagal!",
+    //         icon: "error",
+    //       });
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    // / console.log(form);
+    laravel.get("/sanctum/csrf-cookie").then((response) => {
+      laravel
+        .post("/api/login", form)
+        .then((response) => {
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          if (response.data.user.role_id == 1) {
+            navigate("/admin");
+          } else if (response.data.user.role_id == 2) {
+            navigate("/kasir");
+          } else {
+            throw new Error("Gagal");
+          }
+        })
+        .catch((response) => {
+          Swal.fire({
+            text: "Username Atau Password Yang Anda masukan salah",
+            title: "Gagal!",
+            icon: "error",
+          });
+        });
+    });
+  };
   return (
     <div className="hold-transition login-page">
       <div className="login-box">
-        <div className="login-logo">
-          <a href="../../index2.html">
-            <b>Sidasari</b>Cinema
-          </a>
-        </div>
         {/* /.login-logo */}
         <div className="card">
-          <div className="card-body login-card-body">
-            <form>
+          <div className="card-body login-card-body p-5">
+            <form onSubmit={handleSubmit}>
+              <div className="login-logo mb-5">
+                <b>Sidasari</b>Cinema
+              </div>
               <div className="input-group mb-3">
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Masukan Username"
+                  name="username"
+                  onChange={handleChange}
+                  value={form.username}
                 />
                 <div className="input-group-append">
                   <div className="input-group-text">
@@ -27,7 +88,10 @@ export default function Login() {
                 <input
                   type="password"
                   className="form-control"
+                  name="password"
                   placeholder="Password"
+                  value={form.password}
+                  onChange={handleChange}
                 />
                 <div className="input-group-append">
                   <div className="input-group-text">
@@ -36,39 +100,16 @@ export default function Login() {
                 </div>
               </div>
               <div className="row">
-                <div className="col-8">
-                  <div className="icheck-primary">
-                    <input type="checkbox" id="remember" />
-                    <label htmlFor="remember">Remember Me</label>
-                  </div>
-                </div>
                 {/* /.col */}
-                <div className="col-4">
+                <div className="col-12">
                   <button type="submit" className="btn btn-primary btn-block">
-                    Sign In
+                    Masuk
                   </button>
                 </div>
                 {/* /.col */}
               </div>
             </form>
-            <div className="social-auth-links text-center mb-3">
-              <p>- OR -</p>
-              <a href="#" className="btn btn-block btn-primary">
-                <i className="fab fa-facebook mr-2" /> Sign in using Facebook
-              </a>
-              <a href="#" className="btn btn-block btn-danger">
-                <i className="fab fa-google-plus mr-2" /> Sign in using Google+
-              </a>
-            </div>
             {/* /.social-auth-links */}
-            <p className="mb-1">
-              <a href="forgot-password.html">I forgot my password</a>
-            </p>
-            <p className="mb-0">
-              <a href="register.html" className="text-center">
-                Register a new membership
-              </a>
-            </p>
           </div>
           {/* /.login-card-body */}
         </div>

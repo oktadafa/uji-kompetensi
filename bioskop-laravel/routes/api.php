@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\api\LoginController;
+use App\Http\Controllers\PemesananController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout',[loginController::class, 'logout'])->middleware('auth:sanctum');
+
+Route::post('/createUser',[LoginController::class, 'register']);
+
+Route::post('/midtrans-callback', [PemesananController::class, 'callback']);
+

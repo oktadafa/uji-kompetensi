@@ -1,20 +1,33 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
+  const [nama, setNama] = useState("");
+  const navigasi = useNavigate("");
+  useEffect(() => {
+    if (localStorage.getItem("token") == null) {
+      return navigasi("/login");
+    }
+    if (JSON.parse(localStorage.getItem("user")).role_id == 2) {
+      navigasi("/kasir");
+    }
+
+    const data = JSON.parse(localStorage.getItem("user"));
+    setNama(data.name);
+  }, []);
+
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4 position-fixed">
       {/* Brand Logo */}
       <a className="brand-link text-center">
-        <span className="brand-text font-weight-light">Sidasari Cinema</span>
+        <span className="brand-text font-weight-bold">Sidasari Cinema</span>
       </a>
       {/* Sidebar */}
       <div className="sidebar">
         {/* Sidebar user (optional) */}
         <div className="user-panel mt-3 pb-3 mb-3 d-flex">
           <div className="info">
-            <a href="#" className="d-block">
-              Alexander Pierce
-            </a>
+            <h6 className="text-light text-center">{nama}</h6>
           </div>
         </div>
         {/* SidebarSearch Form */}
@@ -59,7 +72,7 @@ export default function Sidebar() {
 
             <li className="nav-item">
               <Link to={"/admin/ruang"} className="nav-link">
-                <i className="nav-icon fas fa-sign-out-alt"></i>
+                <i className="nav-icon fas fa-video"></i>
                 <p>Data Ruang</p>
               </Link>
             </li>
