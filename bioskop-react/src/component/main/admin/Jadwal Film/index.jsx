@@ -94,12 +94,21 @@ export default function JadwalFilm() {
           <b>Tanggal Tayang</b>
         </h6>
       ),
-      selector: (row) =>
-        new Date(row.tanggal_tayang).toLocaleString("id-ID", {
-          year: "numeric",
-          month: "numeric",
-          day: "2-digit",
-        }),
+      selector: (row) => {
+        if (
+          new Date().toLocaleDateString() >
+          new Date(row.tanggal_tayang).toLocaleDateString()
+        ) {
+          return "Sudah Ditayangkan";
+        } else if (
+          new Date().toLocaleDateString() ==
+          new Date(row.tanggal_tayang).toLocaleDateString()
+        ) {
+          return "Hari Ini";
+        } else {
+          return new Date(row.tanggal_tayang).toLocaleDateString();
+        }
+      },
       sortable: true,
       style: {
         fontSize: 15,

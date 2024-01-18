@@ -2,7 +2,7 @@
 @section('content')
 <div class="container mt-5">
     <div class="contaier-fluid card p-3 shadow">
-        <h3 class="text-center">Keranjang Pembelian</h3>
+        <h3 class="text-center">Konfirmasi Pemesanan Tiket</h3>
         <div class="info">
             <small>Judul : {{ $jadwal->films->judul }}</small><br>
             <small>Ruang : {{ $jadwal->ruangs->nama_ruang }}</small><br>

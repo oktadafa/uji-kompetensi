@@ -13,9 +13,30 @@ class FilmController extends Controller
     //
     public function index()
     {
-        $films = Film::all();
+        $films = Film::with('jadwal_films')->orderBy('id', 'desc')->get();
+        $data_film = [];
+        $coming_soon = [];
+        foreach ($films as $film) {
+            # code...
+        foreach ($film->jadwal_films as $jadwal) {
+            if (strtotime($jadwal->tanggal_tayang) > time()) {
+                if (!in_array($film, $coming_soon)) {
+                    # code...
+                    array_push($coming_soon,$film);
+                }
+            }
+            if ( explode(" ",$jadwal->tanggal_tayang)[0] == date('Y-m-d')) {
+                # code...
+                if (!in_array($film, $data_film)) {
+                    # code...
+                    array_push($data_film,$film);
+                }
+            }
+        }
+        }
         return view('main.index',[
-            'films' => $films
+            'films_now' => $data_film,
+            'films_coming_soon' => $coming_soon
         ]);
     }
 
@@ -36,7 +57,7 @@ class FilmController extends Controller
         $id = $id->load('ruangs');
         $jumlah_kursi = $id->ruangs->jumlah_kursi;
         return view('main.teater',[
-            'id_kursi' => str_split('ABCDEFGHIJKLMNOPQRSTU'),
+            'id_kursi' => str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
             'jumlah_kursi' => $jumlah_kursi,
             'id' => $id,
         ]);

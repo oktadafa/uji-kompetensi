@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
 
   result
     .then((data) => res.json({ data: data }))
-    .catch((err) => console.log(err));
+    .catch((err) => res.json({ err: err }));
 });
 
 router.post("/tambah", (req, res) => {
@@ -16,10 +16,12 @@ router.post("/tambah", (req, res) => {
   const data = req.body;
   data.durasi = `${data.jam}:${data.menit}:${data.detik}`;
   const result = dbser.insertFilm(data);
-
   result
-    .then((data) => res.json({ data: data }))
-    .catch((err) => console.log(err));
+    .then((response) => {
+      console.log(response);
+      res.json({ data: response });
+    })
+    .catch((err) => res.json({ err: err }));
 });
 
 router.put("/ubah/", (req, res) => {
@@ -30,7 +32,7 @@ router.put("/ubah/", (req, res) => {
 
   result
     .then((data) => res.json({ data: data }))
-    .catch((err) => console.log(err));
+    .catch((err) => res.json({ err: err }));
 });
 
 router.delete("/hapus/:id", (req, res) => {
@@ -40,6 +42,6 @@ router.delete("/hapus/:id", (req, res) => {
 
   result
     .then((data) => res.json({ data: data }))
-    .catch((err) => console.log(err));
+    .catch((err) => res.json({ err: err }));
 });
 module.exports = router;

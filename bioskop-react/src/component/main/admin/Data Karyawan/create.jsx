@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { laravel } from "../../../../axios";
+import { karyawan, login } from "../../../../axios";
 import Navbar from "../../../navbar";
 import Sidebar from "../../../sidebar";
 import { useState } from "react";
@@ -22,8 +22,8 @@ export default function TambahPegawai() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    laravel
-      .post("/api/createUser", form)
+    karyawan
+      .post("/tambah", form)
       .then((response) => {
         console.log("Berhasil Menghubungkan Ke Api");
         console.log(response.data);

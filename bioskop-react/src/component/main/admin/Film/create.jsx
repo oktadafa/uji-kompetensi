@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Navbar from "../../../navbar";
 import Sidebar from "../../../sidebar";
-import { film } from "../../../../axios";
+import { fcm, film } from "../../../../axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 export default function BuatFilm() {
   const [form, setForm] = useState({
     judul: "",
+    image_url: "",
     deskripsi: "",
     aktor: "",
     tema: "",
@@ -32,13 +33,17 @@ export default function BuatFilm() {
     film
       .post("/tambah", form)
       .then((response) => {
-        console.log("berhasil menambahakan film");
+        if (response.data.data.status == 500) {
+          throw new Error("Gagal");
+        }
+        console.log("berhasil menambahkan film");
         console.log(response);
         Swal.fire({
           text: "Berhasil Menambahkan Data",
           title: "Success!",
           icon: "success",
         });
+        sendNotification(form.judul);
         navigasi("/admin/film");
       })
       .catch((err) => {
@@ -50,6 +55,31 @@ export default function BuatFilm() {
         });
       });
   };
+
+  const sendNotification = (judulFilm) => {
+    const message = {
+      to: "/topics/semua",
+      notification: {
+        title: `Film Terbaru`,
+        body: `${judulFilm} Akan Ditayangkan Pada Bioskop Kesayangan Anda`,
+      },
+      data: {
+        key1: "value1",
+        key2: "value2",
+      },
+    };
+    fcm
+      .post("", message, {
+        headers: {
+          Authorization:
+            "key=AAAADNgHcSw:APA91bGcy8txdEg2IPp0OVAFJczKyfwRvKIEruJBRYNm30yAY4ZhYUv7C_72Kae5f7RtOhyYQrih16tVnjUAPv-nzhrPHXrUR4dAKg0qbhxfZi9KQQPdw3Y4pJ2G0Hy4vRuzarEC7L6P",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  };
+
   return (
     <>
       <Navbar />
@@ -86,6 +116,19 @@ export default function BuatFilm() {
                         name="judul"
                         value={form.judul}
                         placeholder="Masukan Judul Film"
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="image_url">Url Gambar Film</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="image_url"
+                        name="image_url"
+                        value={form.image_url}
+                        placeholder="Masukan Url Gambar Film"
                         onChange={handleChange}
                         required
                       />

@@ -30,6 +30,7 @@ export default function EditFilm() {
     setForm({
       id: result[0].id,
       judul: result[0].judul,
+      image_url: result[0].image_url,
       tema: result[0].tema,
       deskripsi: result[0].deskripsi,
       sutradara: result[0].sutradara,
@@ -54,6 +55,9 @@ export default function EditFilm() {
     film
       .put("/ubah", form)
       .then((response) => {
+        if (response.data.data.status == 500) {
+          throw new Error("gagal");
+        }
         console.log("berhasil menambahakan film");
         console.log(response);
         Swal.fire({
@@ -113,7 +117,21 @@ export default function EditFilm() {
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="temaFilm">Judul Film</label>
+                      <label htmlFor="image_url">URL Gambar Film</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="image_url"
+                        name="image_url"
+                        value={form.image_url}
+                        placeholder="Masukan URL Gambar Film"
+                        onChange={handleChange}
+                        maxLength={254}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="temaFilm">Tema Film</label>
                       <input
                         type="text"
                         className="form-control"

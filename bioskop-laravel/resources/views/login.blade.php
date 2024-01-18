@@ -5,9 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Signin Template · Bootstrap v5.3</title>
+    <title>Sidasari Cinema</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
@@ -114,7 +112,7 @@
     <div class="form-floating mb-2">
       <input type="text" class="form-control @error('username')
         'is-invalid'
-      @enderror" id="floatingInput" placeholder="Masukan Username anda" name="username" required>
+      @enderror" id="floatingInput" placeholder="Masukan Username anda" name="username" required value="{{ old('username') }}">
       @error('username')
         <p class="text-danger fs-6">{{ $message }}</p>
       @enderror

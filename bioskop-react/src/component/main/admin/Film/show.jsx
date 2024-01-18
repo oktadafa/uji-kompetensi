@@ -12,6 +12,8 @@ export default function ShowFilm() {
     durasi: "",
     sturadara: "",
     tanggal_rilis: "",
+    tema: "",
+    image_url: "",
   });
   const navigasi = useNavigate();
   const { id } = useParams();
@@ -25,6 +27,8 @@ export default function ShowFilm() {
       id: result[0].id,
       judul: result[0].judul,
       deskripsi: result[0].deskripsi,
+      image_url: result[0].image_url,
+      tema: result[0].tema,
       durasi: result[0].durasi,
       sturadara: result[0].sutradara,
       tanggal_rilis: result[0].tanggal_rilis.split("T")[0],
@@ -80,14 +84,14 @@ export default function ShowFilm() {
               <div className="d-flex flex-wrap justify-content-center">
                 <div className="img col-md-4 mb-3">
                   <img
-                    src="https://i.pinimg.com/474x/8d/e6/2c/8de62c26aa3e2f6975c0163aef5e26e6.jpg"
+                    src={"" + data.image_url}
                     className="card-img-top rounded"
                     alt="..."
                   />
                 </div>
                 <div className="info col-md-6 ml-3">
                   <p>
-                    <b>Genre :</b> Comedy
+                    <b>Tema :</b> {data.tema}
                   </p>
                   <p>
                     <b>Sutradara :</b> {data.sturadara}

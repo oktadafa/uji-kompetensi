@@ -1,7 +1,8 @@
 @extends('layout.index')
 @section('content')
 <div class="container-fluid p-5 d-flex justify-content-center">
-    <div class="card p-4 shadow">
+    <div class="col-12 d-flex justify-content-center p-4 shadow">
+        <div>
         <div class="d-flex">
             <div class="bg-primary p-2 col-1 me-3"></div> <small>Kursi Belum Di Pesan</small>
         </div>
@@ -28,6 +29,7 @@
 @endfor
     <br><button type="submit" class="btn btn-primary kirim disabled">Pesan</button>
 </form>
+</div>
 </div>
 </div>
 <script>

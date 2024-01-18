@@ -13,10 +13,7 @@ router.post("/", async (req, res) => {
       result[0].password = "";
       res.json({ data: result[0], status: 200 });
     } else {
-      res.json({
-        status: 500,
-        message: "Username Atau Password Yang anda Masukan Salah",
-      });
+      throw new Error();
     }
   } catch (error) {
     console.log(error);
@@ -27,4 +24,12 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.post("/insert", async (req, res) => {
+  const db = DbServices.getDbServiceInstance();
+  const data = req.body;
+  const salt = bcrypt.genSaltSync(12);
+  data.password = bcrypt.hashSync(data.password, salt);
+  const result = await db.insertUsers(data);
+  console.log(result);
+});
 module.exports = router;

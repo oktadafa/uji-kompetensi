@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../../../navbar";
 import Sidebar from "../../../sidebar";
-import { film, jadwal, ruang } from "../../../../axios";
+import { fcm, film, jadwal, ruang } from "../../../../axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -53,9 +53,23 @@ export default function BuatJadwal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      new Date(form.tanggal_tayang).toLocaleDateString() <=
+      new Date().toLocaleDateString()
+    ) {
+      Swal.fire({
+        text: "Masukan Tanggal Tayang Yang Valid",
+        title: "Gagal!",
+        icon: "error",
+      });
+      return false;
+    }
     jadwal
       .post("/tambah", form)
       .then((response) => {
+        if (response.data.data.status == 500) {
+          throw new Error();
+        }
         console.log("Berhasil Menambahkan data ke Api");
         console.log(response);
         Swal.fire({
@@ -63,6 +77,7 @@ export default function BuatJadwal() {
           title: "Sukses!",
           icon: "success",
         });
+        // sendNotification(form.films_id);
         navigasi("/admin/jadwal");
       })
       .catch((err) => {
@@ -75,6 +90,32 @@ export default function BuatJadwal() {
         navigasi("/admin/jadwal");
       });
   };
+
+  // const sendNotification = (idFilm) => {
+  //   const getFilm = DataFIlm.filter((val) => val.id == idFilm);
+  //   const message = {
+  //     to: "/topics/semua",
+  //     notification: {
+  //       title: `Film Terbaru`,
+  //       body: `${getFilm[0].judul} Telah Rilis Di Sidasari Cinema, Pesan Tiket Sekarang Juga`,
+  //     },
+  //     data: {
+  //       key1: "value1",
+  //       key2: "value2",
+  //     },
+  //   };
+
+  //   fcm
+  //     .post("", message, {
+  //       headers: {
+  //         Authorization:
+  //           "key=AAAADNgHcSw:APA91bGcy8txdEg2IPp0OVAFJczKyfwRvKIEruJBRYNm30yAY4ZhYUv7C_72Kae5f7RtOhyYQrih16tVnjUAPv-nzhrPHXrUR4dAKg0qbhxfZi9KQQPdw3Y4pJ2G0Hy4vRuzarEC7L6P",
+  //         "Content-Type": "application/json",
+  //       },
+  //     })
+  //     .then((response) => console.log(response))
+  //     .catch((error) => console.log(error));
+  // };
 
   const selectRuang = DataRuang.map((val, index) => (
     <option value={val.id} key={index}>

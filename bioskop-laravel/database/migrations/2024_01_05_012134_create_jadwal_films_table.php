@@ -20,8 +20,8 @@ return new class extends Migration
             $table->time('jam_tayang');
             $table->timestamps();
 
-            $table->foreign('films_id')->on('films')->references('id')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreign('ruangs_id')->on('ruangs')->references('id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('films_id')->on('films')->references('id')->restrictOnDelete()->restrictOnUpdate();
+            $table->foreign('ruangs_id')->on('ruangs')->references('id')->restrictOnUpdate()->restrictOnDelete();
         });
     }
 

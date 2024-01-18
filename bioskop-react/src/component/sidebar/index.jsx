@@ -5,8 +5,8 @@ export default function Sidebar() {
   const [nama, setNama] = useState("");
   const navigasi = useNavigate("");
   useEffect(() => {
-    if (localStorage.getItem("token") == null) {
-      return navigasi("/login");
+    if (localStorage.getItem("user") == null) {
+      return navigasi("/");
     }
     if (JSON.parse(localStorage.getItem("user")).role_id == 2) {
       navigasi("/kasir");

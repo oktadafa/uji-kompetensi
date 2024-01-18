@@ -37,9 +37,9 @@ export default function Film() {
       className=" mt-4 text-center ml-4"
     >
       <img
-        src="https://i.pinimg.com/474x/8d/e6/2c/8de62c26aa3e2f6975c0163aef5e26e6.jpg"
-        className="card-img-top rounded"
-        alt="..."
+        src={"" + val.image_url}
+        className="card-img-top rounded shadow"
+        alt={val.judul}
       />
       <Link
         className="text-decoration-none text-dark"
@@ -79,13 +79,13 @@ export default function Film() {
                 onChange={handleSearch}
               />
             </div>
-            <div className="d-flex ml-2 flex-wrap">
-              {data.length > 0 ? (
-                films
-              ) : (
+            {data.length > 0 ? (
+              <div className="d-flex ml-2 flex-wrap">{films}</div>
+            ) : (
+              <div className="text-center">
                 <h5 className="p-5">Tidak Ada FIlm</h5>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </section>
       </div>

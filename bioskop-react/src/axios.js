@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const film = axios.create({
-  baseURL: "http://localhost:3000/api/film",
+  baseURL: "https://bronze-octopus-tux.cyclic.app/api/film",
 });
 
 export const ruang = axios.create({
@@ -9,22 +9,26 @@ export const ruang = axios.create({
 });
 
 export const jadwal = axios.create({
-  baseURL: "http://localhost:3000/api/jadwal",
+  baseURL: "https://bronze-octopus-tux.cyclic.app/api/jadwal",
 });
 
 export const karyawan = axios.create({
-  baseURL: "http://localhost:3000/api/users",
+  baseURL: "https://bronze-octopus-tux.cyclic.app/api/users",
 });
 
-// export const login = axios.create({
-//   baseURL: "http://localhost:3000/api/login",
-// });
+export const login = axios.create({
+  baseURL: "https://bronze-octopus-tux.cyclic.app/api/login",
+});
 export const tiket = axios.create({
-  baseURL: "http://localhost:3000/api/tiket",
+  baseURL: "https://bronze-octopus-tux.cyclic.app/api/tiket",
 });
 
-export const laravel = axios.create({
-  baseURL: "http://localhost:8000",
-  withCredentials: true,
-  withXSRFToken: true,
+export const fcm = axios.create({
+  baseURL: "https://fcm.googleapis.com/fcm/send",
 });
+
+// export const laravel = axios.create({
+//   baseURL: "https://bioskop-okta-daffa.000webhostapp.com",
+//   withCredentials: true,
+//   withXSRFToken: true,
+// });

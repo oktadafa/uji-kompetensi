@@ -3,17 +3,13 @@ import Navbar from "../../../navbar";
 import Sidebar from "../../../sidebar/kasir";
 import DataTable from "react-data-table-component";
 import { jadwal } from "../../../../axios";
-import { useNavigate } from "react-router-dom";
 export default function JadwalFilmKasir() {
   const [data, setData] = useState([]);
-  const navigasi = useNavigate();
+
   useEffect(() => {
     getData();
   }, []);
   const getData = () => {
-    if (localStorage.getItem("token") == null) {
-      navigasi("/login");
-    }
     jadwal
       .get()
       .then((response) => {
@@ -79,11 +75,21 @@ export default function JadwalFilmKasir() {
           <b>Tanggal Tayang</b>
         </h6>
       ),
-      selector: (row) =>
-        new Date(row.tanggal_tayang).toLocaleDateString() ==
-        new Date().toLocaleDateString()
-          ? "hari ini"
-          : new Date(row.tanggal_tayang).toLocaleDateString(),
+      selector: (row) => {
+        if (
+          new Date().toLocaleDateString() >
+          new Date(row.tanggal_tayang).toLocaleDateString()
+        ) {
+          return "Sudah Ditayangkan";
+        } else if (
+          new Date().toLocaleDateString() ==
+          new Date(row.tanggal_tayang).toLocaleDateString()
+        ) {
+          return "Hari Ini";
+        } else {
+          return new Date(row.tanggal_tayang).toLocaleDateString();
+        }
+      },
       sortable: true,
       style: {
         fontSize: 15,
@@ -95,7 +101,7 @@ export default function JadwalFilmKasir() {
           <b>Jam Tayang</b>
         </h6>
       ),
-      selector: (row) => row.jam_tayang,
+      selector: (row) => `${row.jam_tayang} WIB`,
       sortable: true,
       style: {
         fontSize: 15,

@@ -71,6 +71,9 @@ export default function EditJadwal() {
     jadwal
       .put("/ubah/", form)
       .then((response) => {
+        if (response.data.data.status == 500) {
+          throw new Error();
+        }
         console.log("Berhasil Mengubah data");
         console.log(response.data);
         Swal.fire({

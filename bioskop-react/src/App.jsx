@@ -58,7 +58,7 @@ function App() {
         <Route path="/admin/karyawan/edit/:id" element={<EditKaryawan />} />
 
         {/*sudah */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         {/*sudah */}
         <Route path="/kasir" element={<Index />} />

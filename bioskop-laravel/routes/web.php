@@ -37,5 +37,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class,'logout']);
     Route::post('/checkout',[PemesananController::class, 'store']);
     Route::get('/tiket', [PemesananController::class, 'tiket']);
+    Route::get('/cetaktiket/', [PemesananController::class, 'cetak_tiket']);
 });
 

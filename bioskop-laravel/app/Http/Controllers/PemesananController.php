@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JadwalFilm;
 use App\Models\PemesananTiket;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Http\Request;
 
 class PemesananController extends Controller
@@ -34,5 +35,17 @@ public function tiket(){
     return view('main.tiket',[
             'tiket' => $tiket
         ]);
+}
+
+public function cetak_tiket(){
+    $data = [
+            'movieTitle' => 'Judul Film',
+            'movieDetails' => 'Detail Film',
+            'ticketNumber' => '123456789',
+            // ... data tiket lainnya ...
+        ];
+    $pdf = PDF::loadView('main.tiket_pdf',$data);
+
+    return $pdf->stream('tiket.pdf');
 }
 }

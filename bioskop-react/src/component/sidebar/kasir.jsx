@@ -5,11 +5,11 @@ export default function Sidebar() {
   const [nama, setNama] = useState("");
   const navigasi = useNavigate();
   useEffect(() => {
-    if (localStorage.getItem("token") == null) {
-      return navigasi("/login");
+    if (localStorage.getItem("user") == null) {
+      return navigasi("/");
     }
     if (JSON.parse(localStorage.getItem("user")).role_id == 1) {
-      navigasi("/kasir");
+      navigasi("/admin");
     }
 
     const data = JSON.parse(localStorage.getItem("user"));
@@ -17,21 +17,17 @@ export default function Sidebar() {
   }, []);
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4 position-fixed">
-      {/* Brand Logo */}
       <a className="brand-link text-center">
-        <span className="brand-text font-weight-light">Sidasari Cinema</span>
+        <span className="brand-text font-weight-bold">Sidasari Cinema</span>
       </a>
-      {/* Sidebar */}
       <div className="sidebar">
-        {/* Sidebar user (optional) */}
         <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-          <div className="info">
-            <a href="#" className="d-block text-center">
+          <div className="info text-center">
+            <a href="#" className="text-center">
               {nama}
             </a>
           </div>
         </div>
-        {/* SidebarSearch Form */}
         <div className="form-inline">
           <div className="input-group" data-widget="sidebar-search">
             <input
@@ -55,8 +51,6 @@ export default function Sidebar() {
             role="menu"
             data-accordion="false"
           >
-            {/* Add icons to the links using the .nav-icon class
-         with font-awesome or any other icon font library */}
             <li className="nav-item">
               <Link to={"/kasir/"} className="nav-link">
                 <i className="nav-icon fas fa-home"></i>

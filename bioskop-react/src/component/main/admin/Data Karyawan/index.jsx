@@ -17,7 +17,9 @@ export default function Pegawai() {
       .then((response) => {
         console.log(response);
         console.log("data berhasil diambil");
-        setData(response.data.data);
+        const user = JSON.parse(localStorage.getItem("user"));
+        const filter = response.data.data.filter((val) => val.id != user.id);
+        setData(filter);
         localStorage.setItem("karyawan", JSON.stringify(response.data.data));
       })
       .catch((err) => console.log(err));

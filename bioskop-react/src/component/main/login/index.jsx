@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { laravel } from "../../../axios";
+import { useEffect, useState } from "react";
+import { login } from "../../../axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 export default function Login() {
@@ -7,57 +7,52 @@ export default function Login() {
     username: "",
     password: "",
   });
+  const navigasi = useNavigate();
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("user"))) {
+      if (JSON.parse(localStorage.getItem("user")).role_id == 1) {
+        navigasi("/admin");
+      } else {
+        navigasi("/kasir");
+      }
+    }
+  }, []);
   const navigate = useNavigate();
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // login
-    //   .post("", form)
-    //   .then((response) => {
-    //     if (response.data.status == 200) {
-    //       console.log(response.data.data);
-    //       localStorage.setItem("user", JSON.stringify(response.data.data));
-    //       if (response.data.data.role_name == "/admin") {
-    //         navigate("/admin");
-    //       } else {
-    //         navigate("/kasir");
-    //       }
-    //     } else {
-    //       Swal.fire({
-    //         text: response.data.message,
-    //         title: "Gagal!",
-    //         icon: "error",
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    // / console.log(form);
-    laravel.get("/sanctum/csrf-cookie").then((response) => {
-      laravel
-        .post("/api/login", form)
-        .then((response) => {
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("user", JSON.stringify(response.data.user));
-          if (response.data.user.role_id == 1) {
+    login
+      .post("", form)
+      .then((response) => {
+        console.log(response);
+        if (response.data.status == 200) {
+          console.log(response.data.data);
+          localStorage.setItem("user", JSON.stringify(response.data.data));
+          if (response.data.data.role_id == "1") {
             navigate("/admin");
-          } else if (response.data.user.role_id == 2) {
+          } else if (response.data.data.role_id == "2") {
             navigate("/kasir");
           } else {
-            throw new Error("Gagal");
+            throw new Error();
           }
-        })
-        .catch((response) => {
+        } else {
           Swal.fire({
-            text: "Username Atau Password Yang Anda masukan salah",
+            text: response.data.message,
             title: "Gagal!",
             icon: "error",
           });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          text: "Username Atau Password Yang Anda masukan salah",
+          title: "Gagal!",
+          icon: "error",
         });
-    });
+      });
   };
   return (
     <div className="hold-transition login-page">

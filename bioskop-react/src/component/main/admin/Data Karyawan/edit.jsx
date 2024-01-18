@@ -36,6 +36,9 @@ export default function EditKaryawan() {
     karyawan
       .put("/ubah", form)
       .then((response) => {
+        if (response.data.data.status == 500) {
+          throw new Error();
+        }
         console.log("Berhasil Menghubungkan Ke Api");
         console.log(response.data);
         if (response.data.status == 200) {

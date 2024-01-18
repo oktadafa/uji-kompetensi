@@ -45,6 +45,18 @@ export default function Tiket() {
     {
       name: (
         <h6>
+          <b>Nama Pemesan</b>
+        </h6>
+      ),
+      selector: (row) => row.name,
+      sortable: true,
+      style: {
+        fontSize: 15,
+      },
+    },
+    {
+      name: (
+        <h6>
           <b>Nama Ruang</b>
         </h6>
       ),
@@ -84,7 +96,8 @@ export default function Tiket() {
           <b>Waktu Pemesanan</b>
         </h6>
       ),
-      selector: (row) => row.created_at.split("T")[0],
+      selector: (row) =>
+        new Date(row.created_at.split("T")[0]).toLocaleDateString(),
       sortable: true,
       style: {
         fontSize: 15,
@@ -96,7 +109,21 @@ export default function Tiket() {
           <b>Waktu Tayang</b>
         </h6>
       ),
-      selector: (row) => row.tanggal_tayang.split("T")[0],
+      selector: (row) => {
+        if (
+          new Date().toLocaleDateString() >
+          new Date(row.tanggal_tayang).toLocaleDateString()
+        ) {
+          return "Sudah Ditayangkan";
+        } else if (
+          new Date().toLocaleDateString() ==
+          new Date(row.tanggal_tayang).toLocaleDateString()
+        ) {
+          return "Hari Ini";
+        } else {
+          return new Date(row.tanggal_tayang).toLocaleDateString();
+        }
+      },
       sortable: true,
       style: {
         fontSize: 15,
@@ -122,7 +149,7 @@ export default function Tiket() {
           <div className="card">
             <div className="card-header">Data Pemesanan Tiket</div>
             <div className="card-body">
-              <DataTable columns={columns} data={data} />
+              <DataTable columns={columns} data={data} pagination />
             </div>
           </div>
         </section>
